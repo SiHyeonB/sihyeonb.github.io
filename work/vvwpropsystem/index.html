@@ -35,7 +35,7 @@ CPD-Based Runtime Prop Framework</h1><div class="case-subline"><p class="case-en
 <span class="line"><span>  │   + Unreal TexCoord 1 Region Decode → Surface / Emissive / VC / Mtl_0 Response</span></span>
 <span class="line"><span>  ├→ Mesh Type Index → Static Mesh Array → Mesh Variant</span></span>
 <span class="line"><span>  └→ Normalized 0–1 → PFP Min/Max Mapping → Component Transform</span></span></code></pre>
-<p>Surface 커스터마이징은 각 Region에서 Color RGB 3개와 Metallic·Smoothness 2개를 CPD로 전달하고, Material에서 Smoothness를 Roughness로 변환하도록 구성했습니다. 최대 Surface Region은 예외 없이 4개로 고정하고, Surface A–D에 총 20개의 CPD Index를 할당했습니다. 전체 CPD 인덱스 예산은 WPO Animation Speed 같은 비-Surface 제어와 후속 기능 확장을 위한 여유 구간까지 포함해 설계했습니다. 2~3개 Region만 사용하는 PFP는 자식 Prefab BP에서 불필요한 UI 항목을 비활성화했습니다.</p>
+<p>Surface 커스터마이징은 각 Region에서 Color RGB 3개와 Metallic·Smoothness 2개를 CPD로 전달하고, Material에서 Smoothness를 Roughness로 변환하도록 구성했습니다. 최대 Surface Region은 예외 없이 4개로 고정하고, Surface A–D에 총 20개의 CPD Index를 할당했습니다. 전체 CPD 인덱스 예산은 WPO Animation Speed를 포함한 Surface 외 제어값과 후속 기능 확장을 위한 여유 구간까지 고려해 설계했습니다. 2~3개 Region만 사용하는 PFP는 자식 Prefab BP에서 불필요한 UI 항목을 비활성화했습니다.</p>
 <p>Material Slot은 DCC에서 파츠와 면의 역할을 지정하기 위한 제작 규칙이었습니다. DCC에서는 Surface A–D, Emissive A–D, VC, Mtl_0 Material Slot으로 각 면의 역할을 지정했습니다. 전용 Export Add-on은 면별 Slot 할당을 Region Selector 가이드에 맞춰 DCC UV02 (= Unreal TexCoord 1)의 Region 좌표에 기록하고, Export할 때 Material Slot 하나로 병합했습니다. Unreal의 공용 Material은 이 가이드 이미지를 샘플링하지 않고 TexCoord 1 범위를 직접 판별해 해당 표면 분기를 선택하며, Surface A–D는 각각 대응하는 CPD Index 구간을 읽습니다. 따라서 일반적인 프랍은 하나의 Material Slot만 사용했습니다.</p>
 <p>Surface A–D는 일반 표면 커스터마이징 영역, Emissive A–D는 발광 표면 영역으로 사용했습니다. VC는 미리 지정된 Vertex Color와 일반 표면 처리를 함께 사용하는 영역이며, Mtl_0는 사전에 정의한 일반 Metallic 재질 0번입니다. 나머지 Selector 영역은 필요에 따라 새로운 표면 유형이나 Preset을 추가·개조할 수 있도록 남겨 두었습니다.</p>
 <h2 id="pfp-계층과-mesh-variant">PFP 계층과 Mesh Variant</h2>
@@ -48,7 +48,7 @@ CPD-Based Runtime Prop Framework</h1><div class="case-subline"><p class="case-en
 <ul>
 <li>프랍 아트 에셋 및 PFP 제작</li>
 <li>최대 4개 Surface Region·20개 CPD 값의 공용 Material 규격 설계</li>
-<li>비-Surface 제어와 후속 기능 확장을 고려한 전체 CPD 인덱스 예산 설계</li>
+<li>Surface 외 제어값과 후속 기능 확장을 고려한 전체 CPD 인덱스 예산 설계</li>
 <li>PFP Parent 계층과 카테고리별 Mesh Type·Transform 기능 구성</li>
 <li>DCC Export Add-on과 Surface A–D·Emissive A–D·VC·Mtl_0 Region Selector 규격 구성</li>
 <li>Static Mesh Array 기반 Variant와 UV02 / TexCoord 1 Region Mapping·일반 프랍의 Material Slot 병합 규칙 표준화</li>
